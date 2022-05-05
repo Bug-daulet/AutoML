@@ -9,3 +9,4 @@ streamlit==1.8.1
 matplotlib
 sklearn2pmml
 openpyxl
+fsspec
