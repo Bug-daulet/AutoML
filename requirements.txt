@@ -10,3 +10,5 @@ matplotlib
 sklearn2pmml
 openpyxl
 fsspec
+seaborn
+plotly

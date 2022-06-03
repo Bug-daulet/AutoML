@@ -1,22 +1,20 @@
 import streamlit as st
 import pandas as pd
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split
+import numpy as np
+from matplotlib import pyplot as plt
 from sklearn.metrics import classification_report
 from sklearn import metrics
 from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import VotingClassifier, RandomForestClassifier
 from sklearn.linear_model import LogisticRegressionCV
-import numpy as np
-import sklearn.metrics as metrics
 from sklearn.ensemble import AdaBoostClassifier, GradientBoostingClassifier
 import random
-from matplotlib import pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import BaggingClassifier
 from sklearn2pmml.pipeline import PMMLPipeline
 from sklearn2pmml import sklearn2pmml
-
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import FunctionTransformer
 from sklearn2pmml import make_pmml_pipeline
@@ -26,10 +24,10 @@ class Resampling:
     def __init__(self, dataset, target_col, bads_label, goods_label):
         self.df = dataset
         self.target_col = target_col
-        self.bads_label = bads_label
         self.goods_label = goods_label
-        self.goods = self.df[self.df[target_col] == goods_label]
-        self.bads = self.df[self.df[target_col] == bads_label]
+        self.bads_label = bads_label
+        self.goods = self.df[self.df[target_col] == (type(self.df[target_col][0])(goods_label))]
+        self.bads = self.df[self.df[target_col] == (type(self.df[target_col][0])(bads_label))]
         self.hash_balanced_resamples = {}
         self.X_train = pd.DataFrame()
         self.y_train = pd.DataFrame()
@@ -219,6 +217,15 @@ class Resampling:
     def ensemble_metrics(self):
         probs = self.model.predict_proba(self.X_train)
         preds = probs[:, 1]
+
+        # prc_train_p, prc_train_r, prc_train_th = metrics.precision_recall_curve(self.y_train, preds)
+        # fig, ax = plt.subplots()
+        # ax.plot(prc_train_r, prc_train_p, color='purple')
+        # ax.set_title('Train Precision-Recall Curve')
+        # ax.set_ylabel('Precision')
+        # ax.set_xlabel('Recall')
+        # st.pyplot(plt)
+
         fpr, tpr, threshold = metrics.roc_curve(self.y_train, preds)
         roc_auc = metrics.auc(fpr, tpr)
 
@@ -236,6 +243,16 @@ class Resampling:
 
         probs = self.model.predict_proba(self.X_test)
         preds = probs[:, 1]
+
+        # prc_test_p, prc_test_r, prc_test_th = metrics.precision_recall_curve(self.y_test, preds)
+        # fig, ax = plt.subplots()
+        # ax.plot(prc_train_r, prc_train_p, color='purple')
+        # ax.set_title('Test Precision-Recall Curve')
+        # ax.set_ylabel('Precision')
+        # ax.set_xlabel('Recall')
+        # st.pyplot(plt)
+
+
         fpr, tpr, threshold = metrics.roc_curve(self.y_test, preds)
         roc_auc = metrics.auc(fpr, tpr)
 
