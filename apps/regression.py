@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
 from sklearn import metrics
 from sklearn.metrics import r2_score
 
@@ -27,7 +28,15 @@ def app():
     x_test = test.drop([target], axis=1)
     y_test = test[target]
 
-    regressor = LinearRegression()
+    algorithm = st.selectbox("Select an algorithm", ["Linear Regression", "Random forest"])
+
+    if algorithm == "Linear Regression":
+        regressor = LinearRegression()
+    else:
+        regressor = RandomForestRegressor(n_estimators = 100,
+                                          criterion = 'mse',
+                                          random_state = 1,
+                                          n_jobs = -1)
 
     regressor.fit(x_train, y_train)
 

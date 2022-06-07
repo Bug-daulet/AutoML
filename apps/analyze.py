@@ -35,11 +35,11 @@ def app():
     ######################################################
     #     There was ratio_start=0.15, ratio_end=0.20     #
     ######################################################
-    a.balanced_resamples_ratio(ratio_start=0.85, ratio_end=1.0)  # balance by ratio
+    a.balanced_resamples_ratio(ratio_start=0.7, ratio_end=0.90)  # balance by ratio
 
     features = st.multiselect('Select features', options=list(train.columns),
-                              # default=['GCVP_AVER_DED_SUM', 'PKB_Cred_Cards', 'PKB_Num_90', 'PKB_Num_Loans_L6M',
-                                      # 'PKB_Num_Term_Contr', 'PKB_max_Dpd_L12M', 'KOLSEM', 'OPEN_AGE', 'GB']
+                              default=['GCVP_AVER_DED_SUM', 'PKB_Cred_Cards', 'PKB_Num_90', 'PKB_Num_Loans_L6M',
+                                      'PKB_Num_Term_Contr', 'PKB_max_Dpd_L12M', 'KOLSEM', 'OPEN_AGE', 'GB']
                               )
     # list(train.columns))
     # features = ['GCVP_AVER_DED_SUM', 'PKB_Cred_Cards', 'PKB_Num_90', 'PKB_Num_Loans_L6M',
